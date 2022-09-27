@@ -66,4 +66,3 @@ int main(int argc, char* argv[])
     free(buffer);
     free(arr_of_structures);
 }
-
