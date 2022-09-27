@@ -4,8 +4,8 @@
 void my_bubble_sort(void* array, size_t number_of_elements, size_t size, int(*compare)(const void*, const void*))
 {
     assert(array              != nullptr);
-    assert(number_of_elements != 0);
-    assert(size               != 0);
+    assert(number_of_elements !=    0   );
+    assert(size               !=    0   );
 
     char* array1 = (char*) array;
 
