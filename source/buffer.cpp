@@ -59,16 +59,14 @@ size_t count_lines(char* buffer)
     return number_of_lines;
 }
 
-void delete_slash_n (char* buffer)
+void change_delimiter(char* buffer, char delimiter)
 {
     assert(buffer != nullptr);
 
     while (*buffer != '\0')
     {
-        if (*buffer == '\n')
-        {
+        if (*buffer == delimiter)
             *buffer = '\0';
-        }
         buffer++;
     }
 }
@@ -85,12 +83,12 @@ Line* split_buffer(char* buffer, size_t number_of_lines, size_t file_size)
     buffer++;
     Line* arr_of_structures_i = arr_of_structures;
 
-    for (size_t i = 0; i <= file_size; i++)
+    for (char* ptr = buffer; ptr <= (buffer + file_size); ptr++)
     {
-        if ( (*(buffer + i - 1) == '\0') && (*(buffer + i) != '\0') )
+        if ( (*(ptr - 1) == '\0') && (*ptr != '\0') )
         {
-            arr_of_structures_i->line_ptr =        buffer + i;
-            arr_of_structures_i->length   = strlen(buffer + i);
+            arr_of_structures_i->line_ptr =        ptr;
+            arr_of_structures_i->length   = strlen(ptr);
             arr_of_structures_i++;
         }
     }
@@ -111,6 +109,17 @@ void output(Line* arr_of_structures, size_t number_of_lines, FILE* output_file)
     fputs("\n\n\n", output_file);
 }
 
+char* get_to_next_line(char* buffer)
+{
+    while(*buffer != '\0')
+        buffer++;
+
+    while(*buffer == '\0')
+        buffer++;
+
+    return buffer;
+}
+
 void output_original(char* buffer, size_t number_of_lines, FILE* output_file)
 {
     assert(buffer          != nullptr);
@@ -123,13 +132,6 @@ void output_original(char* buffer, size_t number_of_lines, FILE* output_file)
         fputs(buffer, output_file);
         fputs("\n", output_file);
 
-        while(*buffer != '\0')
-        {
-            buffer++;
-        }
-        while(*buffer == '\0')
-        {
-            buffer++;
-        }
+        buffer = get_to_next_line(buffer);
     }
 }
