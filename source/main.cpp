@@ -6,12 +6,12 @@
 
 enum
 {
-    MAIN_ARGUMENTS_ERR           = -1,
-    READ_FILE_ERR                = -2,
-    EMPTY_FILE_ERR               = -3,
-    CREATE_BUFFER_ERR            = -4,
-    CREATE_ARR_OF_STRUCTURES_ERR = -5,
-    CREATE_OUTPUT_FILE_ERR       = -6,
+    MAIN_ARGUMENTS_ERR,
+    READ_FILE_ERR,
+    EMPTY_FILE_ERR,
+    CREATE_BUFFER_ERR,
+    CREATE_ARR_OF_STRUCTURES_ERR,
+    CREATE_OUTPUT_FILE_ERR,
 };
 
 int main(int argc, char* argv[])
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 
     size_t number_of_lines = count_lines(buffer);
 
-    delete_slash_n(buffer);
+    change_delimiter(buffer, '\n');
 
     Line* arr_of_structures = split_buffer(buffer, number_of_lines, file_size);
     if (arr_of_structures == nullptr)
@@ -68,16 +68,16 @@ int main(int argc, char* argv[])
         return CREATE_OUTPUT_FILE_ERR;
     }
 
-    my_bubble_sort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   straight_cmp_from_beginning );
+    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   straight_cmp_from_beginning );
     output(arr_of_structures, number_of_lines, output_file);
 
-    my_bubble_sort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   reverse_cmp_from_beginning  );
+    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   reverse_cmp_from_beginning  );
     output(arr_of_structures, number_of_lines, output_file);
 
-    my_bubble_sort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),  straight_cmp_from_end        );
+    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   straight_cmp_from_end       );
     output(arr_of_structures, number_of_lines, output_file);
 
-    my_bubble_sort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),  reverse_cmp_from_end         );
+    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   reverse_cmp_from_end        );
     output(arr_of_structures, number_of_lines, output_file);
 
     output_original(buffer, number_of_lines, output_file);
