@@ -8,7 +8,7 @@ char* read_file_to_buffer(FILE* filename, size_t filesize);
 
 size_t count_lines(char* buffer);
 
-void delete_slash_n(char* buffer);
+void change_delimiter(char* buffer, char delimiter);
 
 struct Line
 {
