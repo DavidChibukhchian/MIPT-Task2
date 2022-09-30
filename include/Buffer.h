@@ -1,5 +1,6 @@
 #ifndef TASK2_BUFFER_H
 #define TASK2_BUFFER_H
+
 #include <stdio.h>
 
 size_t get_file_size(FILE* filename);
