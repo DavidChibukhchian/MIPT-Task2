@@ -1,6 +1,5 @@
 #ifndef TASK2_BUFFER_H
 #define TASK2_BUFFER_H
-
 #include <stdio.h>
 
 size_t get_file_size(FILE* filename);
@@ -9,7 +8,7 @@ char* read_file_to_buffer(FILE* filename, size_t filesize);
 
 size_t count_lines(char* buffer);
 
-void change_delimiter(char* buffer, char delimiter);
+void change_delimiter(char* buffer, char old_delimiter, char new_delimiter);
 
 struct Line
 {
