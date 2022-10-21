@@ -67,16 +67,16 @@ int main(int argc, char* argv[])
         return CREATE_OUTPUT_FILE_ERR;
     }
 
-    qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures), straight_cmp_from_beginning);
+    my_qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), straight_cmp_from_beginning);
     output(arr_of_structures, number_of_lines, output_file);
 
-    qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), reverse_cmp_from_beginning  );
+    my_qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), reverse_cmp_from_beginning );
     output(arr_of_structures, number_of_lines, output_file);
 
-    qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), straight_cmp_from_end       );
+    my_qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), straight_cmp_from_end      );
     output(arr_of_structures, number_of_lines, output_file);
 
-    qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), reverse_cmp_from_end        );
+    my_qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), reverse_cmp_from_end       );
     output(arr_of_structures, number_of_lines, output_file);
 
     output_original(buffer, number_of_lines, output_file);
