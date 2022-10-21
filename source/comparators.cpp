@@ -10,10 +10,13 @@ enum
     REVERSE_BGN,
     STRAIGHT_END,
     REVERSE_END,
-    NEED_TO_CHECK_END_OF_STR,
+
+    UNEXPECTED_COMPARATOR_MODE = -1
 };
 
-int bgn_compare_main_part(const char* str1, const char* str2, short mode)
+//----------------------------------------------------------------------------------------------------------------------
+
+int compare_from_beginning(const char* str1, const char* str2, int mode)
 {
     while (*str1 != '\0')
     {
@@ -39,20 +42,30 @@ int bgn_compare_main_part(const char* str1, const char* str2, short mode)
         {
             case STRAIGHT_BGN:
                 return (*str1 - *str2);
-                break;
 
             case REVERSE_BGN:
                 return (*str2 - *str1);
-                break;
 
             default:
-                break;
+                return UNEXPECTED_MODE;
         }
     }
-    return NEED_TO_CHECK_END_OF_STR;
+
+    if (*str2 == '\0')
+        return 0;
+
+    while (!isalpha(*str2) && (*str2 != '\0'))
+    {
+        str2++;
+    }
+    if (*str2 == '\0')
+        return 0;
+    return -1;
 }
 
-int end_compare_main_part(const char* str1, const char* str2, short mode)
+//----------------------------------------------------------------------------------------------------------------------
+
+int compare_from_end(const char* str1, const char* str2, int mode)
 {
     while (*str1 != '\0')
     {
@@ -86,39 +99,22 @@ int end_compare_main_part(const char* str1, const char* str2, short mode)
                 break;
         }
     }
-    return NEED_TO_CHECK_END_OF_STR;
-}
 
-int check_end_of_str(const char* str, short mode)
-{
-    if (*str =='\0')
+    if (*str2 == '\0')
         return 0;
 
-    switch (mode)
+    while (!isalpha(*str2) && (*str2 != '\0'))
     {
-        case STRAIGHT_BGN:
-        case REVERSE_BGN:
-            while (!isalpha(*str) && (*str != '\0'))
-                str++;
-            break;
-
-        case STRAIGHT_END:
-        case REVERSE_END:
-            while (!isalpha(*str) && (*str != '\0'))
-                str--;
-            break;
-
-        default:
-            return 0;
+        str2--;
     }
-
-    if (*str == '\0')
+    if (*str2 == '\0')
         return 0;
-
     return -1;
 }
 
-int compare(const char* str1, const char* str2, short mode)
+//----------------------------------------------------------------------------------------------------------------------
+
+int compare(const char* str1, const char* str2, int mode)
 {
     assert(str1 != nullptr);
     assert(str2 != nullptr);
@@ -127,17 +123,18 @@ int compare(const char* str1, const char* str2, short mode)
     {
         case STRAIGHT_BGN:
         case REVERSE_BGN:
-            return bgn_compare_main_part(str1, str2, mode);
+            return compare_from_beginning(str1, str2, mode);
 
         case STRAIGHT_END:
         case REVERSE_END:
-            return end_compare_main_part(str1, str2, mode);
+            return compare_from_end(str1, str2, mode);
 
         default:
             return UNEXPECTED_MODE;
     }
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 
 int straight_cmp_from_beginning (const void* line1, const void* line2)
 {
@@ -148,15 +145,14 @@ int straight_cmp_from_beginning (const void* line1, const void* line2)
     if (res == UNEXPECTED_MODE)
     {
         printf("UNEXPECTED_COMPARATOR_MODE\n");
-        return 0;
+        return UNEXPECTED_COMPARATOR_MODE;
     }
-
-    if (res != NEED_TO_CHECK_END_OF_STR)
-        return res;
-    return check_end_of_str(str2, STRAIGHT_BGN);
+    return res;
 }
 
-int reverse_cmp_from_beginning  (const void* line1, const void* line2)
+//----------------------------------------------------------------------------------------------------------------------
+
+int reverse_cmp_from_beginning (const void* line1, const void* line2)
 {
     const char* str1 = ((Line*) line1)->line_ptr;
     const char* str2 = ((Line*) line2)->line_ptr;
@@ -165,15 +161,14 @@ int reverse_cmp_from_beginning  (const void* line1, const void* line2)
     if (res == UNEXPECTED_MODE)
     {
         printf("UNEXPECTED_COMPARATOR_MODE\n");
-        return 0;
+        return UNEXPECTED_COMPARATOR_MODE;
     }
-
-    if (res != NEED_TO_CHECK_END_OF_STR)
-        return res;
-    return check_end_of_str(str2, REVERSE_BGN);
+    return res;
 }
 
-int straight_cmp_from_end       (const void* line1, const void* line2)
+//----------------------------------------------------------------------------------------------------------------------
+
+int straight_cmp_from_end (const void* line1, const void* line2)
 {
     Line* line1_p = (Line*) line1;
     Line* line2_p = (Line*) line2;
@@ -185,15 +180,14 @@ int straight_cmp_from_end       (const void* line1, const void* line2)
     if (res == UNEXPECTED_MODE)
     {
         printf("UNEXPECTED_COMPARATOR_MODE\n");
-        return 0;
+        return UNEXPECTED_COMPARATOR_MODE;
     }
-
-    if (res != NEED_TO_CHECK_END_OF_STR)
-        return res;
-    return check_end_of_str(str2, STRAIGHT_END);
+    return res;
 }
 
-int reverse_cmp_from_end        (const void* line1, const void* line2)
+//----------------------------------------------------------------------------------------------------------------------
+
+int reverse_cmp_from_end (const void* line1, const void* line2)
 {
     Line* line1_p = (Line*) line1;
     Line* line2_p = (Line*) line2;
@@ -205,10 +199,7 @@ int reverse_cmp_from_end        (const void* line1, const void* line2)
     if (res == UNEXPECTED_MODE)
     {
         printf("UNEXPECTED_COMPARATOR_MODE\n");
-        return 0;
+        return UNEXPECTED_COMPARATOR_MODE;
     }
-
-    if (res != NEED_TO_CHECK_END_OF_STR)
-        return res;
-    return check_end_of_str(str2, REVERSE_END);
+    return res;
 }

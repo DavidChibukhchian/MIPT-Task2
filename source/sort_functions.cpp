@@ -3,9 +3,9 @@
 
 void my_bubble_sort(void* array, size_t number_of_elements, size_t size, int(*compare)(const void*, const void*))
 {
-    assert(array              != nullptr);
-    assert(number_of_elements !=    0   );
-    assert(size               !=    0   );
+    assert(array != nullptr);
+    assert(number_of_elements != 0);
+    assert(size != 0);
 
     char* array1 = (char*) array;
 
@@ -20,6 +20,8 @@ void my_bubble_sort(void* array, size_t number_of_elements, size_t size, int(*co
         }
     }
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 size_t partition(char* array, size_t number_of_elements, size_t size, int(*compare)(const void*, const void*), size_t pivot)
 {
@@ -52,10 +54,12 @@ size_t partition(char* array, size_t number_of_elements, size_t size, int(*compa
     return left_hold;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void my_qsort(void* array, size_t number_of_elements, size_t size, int(*compare)(const void*, const void*))
 {
-    assert(array              != nullptr);
-    assert(size               !=    0   );
+    assert(array != nullptr);
+    assert(size != 0);
 
     if (number_of_elements == 0)
         return;

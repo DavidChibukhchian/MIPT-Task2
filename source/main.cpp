@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "Buffer.h"
 #include "Sort_functions.h"
@@ -49,7 +48,7 @@ int main(int argc, char* argv[])
 
     size_t number_of_lines = count_lines(buffer);
 
-    change_delimiter(buffer, '\n');
+    change_delimiter(buffer, '\n', '\0');
 
     Line* arr_of_structures = split_buffer(buffer, number_of_lines, file_size);
     if (arr_of_structures == nullptr)
@@ -68,16 +67,16 @@ int main(int argc, char* argv[])
         return CREATE_OUTPUT_FILE_ERR;
     }
 
-    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   straight_cmp_from_beginning );
+    qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures), straight_cmp_from_beginning);
     output(arr_of_structures, number_of_lines, output_file);
 
-    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   reverse_cmp_from_beginning  );
+    qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), reverse_cmp_from_beginning  );
     output(arr_of_structures, number_of_lines, output_file);
 
-    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   straight_cmp_from_end       );
+    qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), straight_cmp_from_end       );
     output(arr_of_structures, number_of_lines, output_file);
 
-    my_qsort (arr_of_structures, number_of_lines, sizeof(*arr_of_structures),   reverse_cmp_from_end        );
+    qsort(arr_of_structures, number_of_lines, sizeof(*arr_of_structures), reverse_cmp_from_end        );
     output(arr_of_structures, number_of_lines, output_file);
 
     output_original(buffer, number_of_lines, output_file);

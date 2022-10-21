@@ -21,6 +21,8 @@ size_t get_file_size(FILE* filename)
 #endif
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 char* read_file_to_buffer(FILE* filename, size_t filesize)
 {
     assert(filename != nullptr);
@@ -41,6 +43,8 @@ char* read_file_to_buffer(FILE* filename, size_t filesize)
     return buffer;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 size_t count_lines(char* buffer)
 {
     assert(buffer != nullptr);
@@ -59,23 +63,27 @@ size_t count_lines(char* buffer)
     return number_of_lines;
 }
 
-void change_delimiter(char* buffer, char delimiter)
+//----------------------------------------------------------------------------------------------------------------------
+
+void change_delimiter(char* buffer, char old_delimiter, char new_delimiter)
 {
     assert(buffer != nullptr);
 
     while (*buffer != '\0')
     {
-        if (*buffer == delimiter)
-            *buffer = '\0';
+        if (*buffer == old_delimiter)
+            *buffer = new_delimiter;
         buffer++;
     }
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 Line* split_buffer(char* buffer, size_t number_of_lines, size_t file_size)
 {
-    assert(buffer           !=  nullptr);
-    assert(number_of_lines  !=     0   );
-    assert(file_size        !=     0   );
+    assert(buffer != nullptr);
+    assert(number_of_lines != 0);
+    assert(file_size != 0);
 
     Line* arr_of_structures = (Line*) calloc(number_of_lines, sizeof(Line));
     if (arr_of_structures == nullptr) {return nullptr;}
@@ -87,19 +95,22 @@ Line* split_buffer(char* buffer, size_t number_of_lines, size_t file_size)
     {
         if ( (*(ptr - 1) == '\0') && (*ptr != '\0') )
         {
-            arr_of_structures_i->line_ptr =        ptr;
+            arr_of_structures_i->line_ptr = ptr;
             arr_of_structures_i->length   = strlen(ptr);
             arr_of_structures_i++;
         }
     }
+
     return arr_of_structures;
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 void output(Line* arr_of_structures, size_t number_of_lines, FILE* output_file)
 {
     assert(arr_of_structures != nullptr);
-    assert(number_of_lines   !=    0   );
-    assert(output_file       != nullptr);
+    assert(number_of_lines != 0);
+    assert(output_file != nullptr);
 
     for (size_t i = 0; i < number_of_lines; i++)
     {
@@ -108,6 +119,8 @@ void output(Line* arr_of_structures, size_t number_of_lines, FILE* output_file)
     }
     fputs("\n\n\n", output_file);
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 
 char* get_to_next_line(char* buffer)
 {
@@ -120,11 +133,13 @@ char* get_to_next_line(char* buffer)
     return buffer;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 void output_original(char* buffer, size_t number_of_lines, FILE* output_file)
 {
-    assert(buffer          != nullptr);
-    assert(number_of_lines !=    0   );
-    assert(output_file     != nullptr);
+    assert(buffer != nullptr);
+    assert(number_of_lines != 0);
+    assert(output_file != nullptr);
 
     buffer++;
     for (size_t i = 0; i < number_of_lines; i++)
